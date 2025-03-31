@@ -57,7 +57,7 @@ def read_shoes_data():
     This method reads data from the inventory text files, and appends
     the objects in the file to the shoe_list.
 
-    :param file inventory.txt:  Text file which contains shoe data.
+    
 
     :returns: attributes for Shoe in a list.
 
@@ -96,11 +96,7 @@ def capture_shoes():
     about a shoe and use this data to create a shoe object
     and append this object inside the shoe list.
 
-    :param str country_input: Location of the shoe.
-    :param str code_input:  Product code of the shoe.
-    :param str product: Product description.
-    :param int cost:    Cost of the shoe.
-    :param int quantity:    Quantity of the shoe.
+   
 
     :returns:   An object in a list and text file.
     :return type:   Object.
@@ -141,6 +137,10 @@ def view_all(shoe_list):
     print the details of the shoes returned from the __str__
     function. Optional: you can organise your data in a table format
     by using Python’s tabulate module.
+
+    :param list shoe list: list of all shoes.
+    :returns:   Table.
+    :return type:   Table.
     '''
     # Read the shoes data from the text file
     # shoe_list = read_shoes_data()
@@ -229,11 +229,11 @@ def search_shoe(shoe_list):
      This function will search for a shoe from the list
      using the shoe code and return this object so that it will be printed.
 
-     :param str code:   Shoe code.
+     :param list shoe_list:  List of shoe objects.
 
      :returns:  Attributes of the shoe object using the code.
 
-     return type:   str
+     return type:   str.
     '''
     # Read the shoes data from the text file.
     # shoe_list = read_shoes_data()
@@ -269,12 +269,12 @@ def value_per_item(shoe_list):
     Please keep the formula for value in mind: value = cost * quantity.
     Print this information on the console for all the shoes.
 
-    :param int cost:        The shoe cost.
-    :param int quantity:    The shoe quantity.
+    
+    :param list shoe_list:  List of shoe objects.
 
-    :returns:               The value of a shoe.
+    :returns:   The value of a shoe.
 
-    :return type:           Integers.
+    :return type:   Integers.
     '''
     # Read the shoes data from the text file.
     # shoe_list = read_shoes_data()
@@ -301,6 +301,12 @@ def highest_qty(shoe_list):
     '''
     Write code to determine the product with the highest quantity and
     print this shoe as being for sale.
+
+    :param list shoe_list:  List of shoe objects.
+
+    :returns:   The quantity of a shoe.
+
+    :return type:   Object.
     '''
     # Read the shoes data from the text file
     # shoe_list = read_shoes_data()
