@@ -56,36 +56,28 @@ def read_shoes_data():
     '''
     This method reads data from the inventory text files, and appends
     the objects in the file to the shoe_list.
-
-    
-
     :returns: attributes for Shoe in a list.
-
     :return type: object
     '''
+
     try:
         # Open the inventory file which contains shoe data.
         with open("inventory.txt", "r", encoding="utf-8") as file:
             # Skip the 1st line
             next(file)
-
             # Create empty shoe list, to append latest data.
             shoe_list = []
-
             # Loop through each line in the file and store the attributes
             # of each object in a list. Use 1 index to skip the 1st line.   
             for line in file:
                 shoe_data = line.strip()
                 shoe_data = shoe_data.split(",")
-
                 # Append each object/line to the shoe_list.                               
                 shoe_list.append(
                     Shoe(shoe_data[0], shoe_data[1], shoe_data[2],
                          shoe_data[3], shoe_data[4])
                     )
-
             return shoe_list
-
     except FileNotFoundError:
         print("Please ensure the file is saved before accessing it!")
 
@@ -95,39 +87,33 @@ def capture_shoes():
     This function will allow a user to capture data
     about a shoe and use this data to create a shoe object
     and append this object inside the shoe list.
-
-   
-
     :returns:   An object in a list and text file.
     :return type:   Object.
     '''
+
     # Prompt user to enter the attributes of Shoe. Validate data type
     # where casting is used (e.g integers).
     country_input = input("Please enter country:    ")
     code_input = input("Please enter shoe code: ")
     product_input = input("Please enter the shoe product:   ")
-
     while True:
         try:
             cost_input = int(input("Please enter the cost of the shoe:  "))
             break
         except ValueError:
             print("Please enter a number!")
-
     while True:
         try:
             quantity_input = int(input("Please enter the quantity:  "))
             break
         except ValueError:
             print("Please enter a number!")
-
     # Add the attributes to inventory file
     with open("inventory.txt", "a", encoding="utf-8") as file:
         file.write(
             f"\n{country_input},{code_input},{product_input},"
             f"{cost_input},{quantity_input}"
             )
-
     print("\nShoe captured successfully!")
 
 
@@ -137,21 +123,16 @@ def view_all(shoe_list):
     print the details of the shoes returned from the __str__
     function. Optional: you can organise your data in a table format
     by using Python’s tabulate module.
-
     :param list shoe list: list of all shoes.
     :returns:   Table.
     :return type:   Table.
     '''
-    # Read the shoes data from the text file
-    # shoe_list = read_shoes_data()
 
     # Create an iterable shoe list(2D List).
     shoes_data = [shoe.enlist() for shoe in shoe_list]
-
     # Create headers since the 1st row in removed from the read_shoes_data
     # function.
     shoe_headers = ["Country", "Code", "Product", "Cost", "Quantity"]
-
     # Print the data in a table.
     shoe_presentation = tabulate(
                 shoes_data, headers=shoe_headers, tablefmt="grid"
@@ -165,32 +146,23 @@ def re_stock(shoe_list):
     which is the shoes that need to be re-stocked. Ask the user if they
     want to add this quantity of shoes and then update it.
     This quantity should be updated on the file for this shoe.
-
     :param list shoe_list:  List of shoe objects.
-
     :returns:   Update shoe quantity.
-
     :return type:   Integer.
     '''
-    # Read the shoes data from the text file
-    # shoe_list = read_shoes_data()
 
     # Empty list for quantities.
     shoe_quantities = []
-
     for shoe in shoe_list:
         # Cast shoe quantity as integer since it comes as a string from
         # the text file.
         shoe_quantities.append(int(shoe.quantity))
-
     # Determine the product with the lowest quantity.
     min_quantity = min(shoe_quantities)
-
     # Loop through the quantity list and return product with lowest quantity.
     for shoe in shoe_list:
         if int(shoe.quantity) == min_quantity:
             print(f"{shoe.product} has the lowest quantity ({min_quantity}).")
-
             # Update the lowest quantity.
             while True:
                 try:
@@ -200,15 +172,12 @@ def re_stock(shoe_list):
                     break
                 except ValueError:
                     print("Please enter a number!")
-
             new_stock = int(shoe.quantity) + re_stock
             shoe.quantity = new_stock
-
             try:
                 with open("inventory.txt", "w", encoding="utf-8") as file:
                     # Insert headers since they were removed in the shoe_list.
                     file.write("Country,Code,Product,Cost,Quantity")
-
                     # Iterate through the show list and overwrite existing data
                     # in the inventory.txt file with the updated data.
                     for i, shoe in enumerate(shoe_list):
@@ -218,9 +187,7 @@ def re_stock(shoe_list):
                                 )
             except StopIteration:
                 print("File corrupted, please contact Administrator!")
-
             print("Quantity updated successfully!\n")
-
     return shoe_quantities
 
 
@@ -228,37 +195,27 @@ def search_shoe(shoe_list):
     '''
      This function will search for a shoe from the list
      using the shoe code and return this object so that it will be printed.
-
      :param list shoe_list:  List of shoe objects.
-
      :returns:  Attributes of the shoe object using the code.
-
      return type:   str.
     '''
-    # Read the shoes data from the text file.
-    # shoe_list = read_shoes_data()
 
     # Empty list where codes will be appended.
     codes = []
-
     # Loop through shoe_list and append codes to the codes list.
     for shoe in shoe_list:
         shoe_code = shoe.code
         codes.append(shoe_code)
-
     # Check if code exists.
     while True:
-
         # Prompt user to enter shoe code.
         shoe_code_input = input("Please enter shoe code:    ").upper()
-
         if shoe_code_input in codes:
             # If code exists, print the object as a string.
             for shoe in shoe_list:
                 if shoe_code_input == shoe.code:
                     print(shoe)
             break
-
         else:
             print("The code does not exist!\n")
 
@@ -268,28 +225,19 @@ def value_per_item(shoe_list):
     This function will calculate the total value for each item.
     Please keep the formula for value in mind: value = cost * quantity.
     Print this information on the console for all the shoes.
-
-    
     :param list shoe_list:  List of shoe objects.
-
     :returns:   The value of a shoe.
-
     :return type:   Integers.
     '''
-    # Read the shoes data from the text file.
-    # shoe_list = read_shoes_data()
 
     # Create empty list where I will append the product and value for
     # each item.
     values = []
-
     values_headers = ["No", "Product", "Value"]
-
     # Loop through the shoe_list.
     for i, shoe in enumerate(shoe_list, start=1):
         value_pu = int(shoe.cost) * int(shoe.quantity)
         values.append([f"{i}", f"{shoe.product}", f"{value_pu:,}"])
-
     # Create table.
     value_presentation = tabulate(
                         values, headers=values_headers, tablefmt="grid"
@@ -301,27 +249,19 @@ def highest_qty(shoe_list):
     '''
     Write code to determine the product with the highest quantity and
     print this shoe as being for sale.
-
     :param list shoe_list:  List of shoe objects.
-
     :returns:   The quantity of a shoe.
-
     :return type:   Object.
     '''
-    # Read the shoes data from the text file
-    # shoe_list = read_shoes_data()
 
     # Empty list for quantities.
     shoe_quantities = []
-
     for shoe in shoe_list:
         # Cast shoe quantity as integer since it comes as a string from
         # the text file.
         shoe_quantities.append(int(shoe.quantity))
-
     # Determine the product with the highest quantity.
     max_quantity = max(shoe_quantities)
-
     # Loop through the quantity list and return product with lowest quantity.
     for shoe in shoe_list:
         if int(shoe.quantity) == max_quantity:
@@ -333,7 +273,6 @@ def highest_qty(shoe_list):
 while True:
     # Read text file and create shoe list.
     all_shoes = read_shoes_data()
-
     # Menu.
     print(
         "Welcome to the Inventory Management Application!"
@@ -345,7 +284,6 @@ while True:
         "\n 6   -   Place overstocked inventory on sale."
         "\n 7   -   Close application."
         )
-    
     option = input("\nPlease select an option from the menu (1 to 7):   ")
 
     if option == "1":
@@ -377,6 +315,5 @@ while True:
         print()
 
     else:
-
         print("\nOption does not exist. Please select an option from the menu!")
         print()
